@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 
 import { Navbar } from './components/Navbar';
@@ -14,6 +14,7 @@ const getPathname = () => window.location.pathname;
 
 function App() {
   const [pathname, setPathname] = useState(getPathname);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     const handleRouteChange = () => setPathname(getPathname());
@@ -27,14 +28,27 @@ function App() {
 
       const href = link.getAttribute('href');
 
-      if (!href || href.startsWith('#') || href.startsWith('mailto:') || link.hash) {
+      if (!href || href.startsWith('mailto:')) {
+        return;
+      }
+
+      if (href.startsWith('#')) {
         return;
       }
 
       event.preventDefault();
       window.history.pushState({}, '', href);
       handleRouteChange();
-      window.scrollTo({ top: 0 });
+
+      window.requestAnimationFrame(() => {
+        if (link.hash) {
+          document.querySelector(link.hash)?.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+
+        lenisRef.current?.scrollTo(0, { immediate: true });
+        window.scrollTo({ top: 0 });
+      });
     };
 
     window.addEventListener('popstate', handleRouteChange);
@@ -56,16 +70,21 @@ function App() {
       wheelMultiplier: 1,
       touchMultiplier: 2,
     });
+    lenisRef.current = lenis;
+
+    let rafId = 0;
 
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 

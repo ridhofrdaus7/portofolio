@@ -1,139 +1,136 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, Layers3 } from "lucide-react";
 import { works } from "../data/works";
 
-// Group works by brand instead of category
 const brandGroups = works.reduce<Record<string, typeof works>>((groups, work) => {
   groups[work.brand] = [...(groups[work.brand] ?? []), work];
   return groups;
 }, {});
 
+const toAnchor = (value: string) => value.toLowerCase().replaceAll(" ", "-");
+
 export const WorkPage = () => {
   return (
-    <main className="min-h-screen bg-black px-4 pb-32 pt-28 text-white md:px-8 md:pt-40">
+    <main className="min-h-screen bg-background px-4 pb-24 pt-28 text-foreground md:px-6 md:pt-32">
       <div className="mx-auto max-w-7xl">
-        {/* Back Link */}
         <motion.a
           href="/"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16 inline-flex items-center gap-3 text-sm font-medium text-white/50 transition-colors hover:text-white"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-10 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full border border-foreground/15 bg-white px-5 text-sm font-semibold text-foreground transition-colors hover:border-foreground/35 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to overview
+          Back home
         </motion.a>
 
-        {/* Header */}
         <motion.header
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-32"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="border-b border-foreground/10 pb-10"
         >
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-[1px] w-12 bg-white/20" />
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
-              Work Archive
+          <p className="mb-5 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-foreground/50">
+            <Layers3 className="h-4 w-4" />
+            Work archive
+          </p>
+          <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-end">
+            <h1 className="max-w-5xl text-5xl font-bold leading-[0.95] tracking-tight text-foreground md:text-7xl lg:text-8xl">
+              All design works by brand.
+            </h1>
+            <p className="max-w-md text-base leading-relaxed text-foreground/60 md:justify-self-end">
+              Seluruh hasil design ditampilkan dalam grid yang rapi dan
+              dikelompokkan berdasarkan brand agar mudah discan tanpa teks
+              menumpuk.
             </p>
-          </div>
-          <h1 className="max-w-5xl text-6xl font-bold leading-[0.9] tracking-tighter md:text-8xl lg:text-9xl italic font-heading">
-            Brands that built<br />
-            <span className="text-white/20">with intention.</span>
-          </h1>
-          <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-10">
-            <p className="max-w-xl text-lg md:text-xl font-light leading-relaxed text-white/60">
-              A comprehensive archive of design systems, digital experiences, 
-              and campaign visuals crafted for brands that value precision and 
-              visual narrative.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              {Object.keys(brandGroups).map((brand) => (
-                <a 
-                  key={brand}
-                  href={`#${brand.toLowerCase().replaceAll(" ", "-")}`}
-                  className="px-4 py-2 rounded-full border border-white/10 text-xs font-medium hover:bg-white hover:text-black transition-all duration-300"
-                >
-                  {brand}
-                </a>
-              ))}
-            </div>
           </div>
         </motion.header>
 
-        {/* Work Sections */}
-        <div className="space-y-40 md:space-y-64">
+        <div className="mt-8 flex flex-wrap gap-2">
           {Object.entries(brandGroups).map(([brand, items]) => (
-            <section 
-              key={brand} 
-              id={brand.toLowerCase().replaceAll(" ", "-")}
-              className="relative"
+            <a
+              key={brand}
+              href={`#${toAnchor(brand)}`}
+              className="inline-flex min-h-10 cursor-pointer items-center rounded-full border border-foreground/10 bg-white px-4 text-sm font-medium text-foreground/70 transition-colors hover:border-foreground/30 hover:text-foreground"
             >
-              <div className="sticky top-32 z-10 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8 mix-blend-difference">
-                <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/40" />
-                    <p className="text-xs font-semibold uppercase tracking-widest text-white/40">
-                      {items[0].category}
-                    </p>
-                  </div>
-                  <h2 className="text-5xl font-bold tracking-tight md:text-7xl font-heading italic">{brand}</h2>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-white/40 mb-1">Brand Partnership</p>
-                  <p className="text-sm text-white/60">{items.length} Deliverables</p>
-                </div>
-              </div>
+              {brand}
+              <span className="ml-2 text-foreground/40">{items.length}</span>
+            </a>
+          ))}
+        </div>
 
-              <div className="grid gap-12 md:gap-24">
+        <div className="mt-16 space-y-20">
+          {Object.entries(brandGroups).map(([brand, items], brandIndex) => (
+            <section key={brand} id={toAnchor(brand)} className="scroll-mt-28">
+              <motion.div
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.7, delay: brandIndex * 0.04, ease: [0.16, 1, 0.3, 1] }}
+                className="mb-6 flex flex-col justify-between gap-4 border-b border-foreground/10 pb-5 md:flex-row md:items-end"
+              >
+                <div>
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-foreground/45">
+                    {items[0].category}
+                  </p>
+                  <h2 className="text-4xl font-heading italic leading-none text-foreground md:text-6xl">
+                    {brand}
+                  </h2>
+                </div>
+                <p className="text-sm text-foreground/50">{items.length} works</p>
+              </motion.div>
+
+              <div className="grid gap-5 md:grid-cols-2">
                 {items.map((work, index) => (
                   <motion.article
                     key={work.id}
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 1, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                    className={`group grid gap-10 md:grid-cols-2 md:items-center ${index % 2 === 1 ? 'md:direction-rtl' : ''}`}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.65, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                    className="group overflow-hidden border border-foreground/10 bg-white"
                   >
-                    <div className={`relative aspect-[16/10] overflow-hidden bg-white/5 rounded-2xl ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                    <div className="relative aspect-[16/10] overflow-hidden bg-foreground/5">
                       <img
                         src={work.image}
-                        alt={`${work.title} for ${work.brand}`}
-                        className="h-full w-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                        alt={`${work.title} untuk ${work.brand}`}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <span
+                        className="absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold text-foreground shadow-sm"
+                        style={{ backgroundColor: work.color }}
+                      >
+                        {work.year}
+                      </span>
                     </div>
 
-                    <div className={index % 2 === 1 ? 'md:order-1' : ''}>
-                      <div className="mb-8">
-                        <span className="inline-block px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 mb-6">
-                          Project {work.id.toString().padStart(2, '0')} - {work.year}
-                        </span>
-                        <h3 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-                          {work.title}
-                        </h3>
-                        <p className="text-lg leading-relaxed text-white/50 max-w-lg">
-                          {work.description}
-                        </p>
+                    <div className="p-6 md:p-8">
+                      <div className="mb-5 flex items-start justify-between gap-6">
+                        <div>
+                          <p className="text-sm font-medium text-foreground/50">{work.brand}</p>
+                          <h3 className="mt-2 text-3xl font-heading italic leading-none text-foreground md:text-4xl">
+                            {work.title}
+                          </h3>
+                        </div>
+                        <ArrowUpRight className="h-5 w-5 shrink-0 text-foreground/45 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
                       </div>
 
-                      <div className="flex flex-wrap gap-3 mb-10">
+                      <p className="max-w-xl text-sm leading-relaxed text-foreground/65">
+                        {work.description}
+                      </p>
+
+                      <div className="mt-7 flex flex-wrap gap-2">
                         {work.deliverables.map((deliverable) => (
                           <span
                             key={deliverable}
-                            className="inline-flex items-center gap-2 text-xs font-medium text-white/40"
+                            className="inline-flex min-h-9 items-center gap-2 rounded-full border border-foreground/10 px-3 text-xs font-medium text-foreground/70"
                           >
-                            <span className="h-1 w-1 rounded-full bg-white/20" />
+                            <Check className="h-3.5 w-3.5 text-foreground" />
                             {deliverable}
                           </span>
                         ))}
                       </div>
-
-                      <button className="inline-flex items-center gap-2 text-sm font-semibold group/btn transition-colors hover:text-white/60">
-                        View Project Details
-                        <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-                      </button>
                     </div>
                   </motion.article>
                 ))}
