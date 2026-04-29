@@ -128,53 +128,65 @@ const ShowMoreCard = ({
         loop
         muted
         playsInline
-        className="absolute inset-0 h-full w-full object-cover opacity-65"
-        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260422_191657_800d4e1f-7ab3-41af-90b6-9bd3039eb294.mp4"
+        className="absolute inset-0 h-full w-full object-cover"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260411_104032_69319010-2458-492b-b04d-b40a5dfa4482.mp4"
       />
-      <div className="absolute inset-0 bg-black/55" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/58 to-black/20" />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[62%]"
+        style={{
+          background:
+            "radial-gradient(ellipse 82% 72% at 22% 86%, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.48) 36%, rgba(0,0,0,0.18) 66%, transparent 100%)",
+        }}
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.08) 0%, transparent 32%, rgba(0,0,0,0.18) 100%)",
+        }}
+      />
 
       <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 md:p-10 lg:p-14">
         <div className="flex items-start justify-between gap-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-background/55">
+          <p className="text-xs font-semibold uppercase tracking-widest text-background/70 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             Full archive
           </p>
-          <span className="text-sm font-medium text-background/55">{works.length} works</span>
+          <span className="text-sm font-medium text-background/70 drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">{works.length} works</span>
         </div>
 
-        <div className="grid gap-10 md:grid-cols-[1fr_0.75fr] md:items-end">
+        <div className="grid gap-12 md:max-w-[85rem] md:grid-cols-[minmax(0,1.1fr)_minmax(20rem,0.9fr)] md:items-end">
           <div>
-            <h3 className="max-w-4xl text-5xl font-heading italic leading-none text-background md:text-7xl lg:text-8xl">
-              More work, more flavor.
+            <h3 className="max-w-4xl text-6xl font-heading italic leading-[0.85] text-background drop-shadow-[0_4px_32px_rgba(0,0,0,0.8)] md:text-8xl lg:text-[8rem]">
+              More work,<br /> more flavor.
             </h3>
-            <p className="mt-6 max-w-xl text-sm leading-relaxed text-background/65 md:text-base">
+            <p className="mt-8 max-w-xl text-base leading-relaxed text-background/85 drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)] md:text-lg">
               Explore the full collection of brand identities, campaigns, websites,
               product UI, and editorial visuals grouped by brand category.
             </p>
           </div>
 
-          <div className="flex flex-col gap-5 md:items-start">
-            <div className="grid gap-2 text-sm text-background/70">
-              <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-background" />
+          <div className="flex flex-col gap-8 md:items-start">
+            <div className="grid gap-4 text-base md:text-lg text-background/90 drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)] font-medium">
+              <div className="flex items-center gap-4">
+                <Check className="h-6 w-6 text-background" />
                 Brand identity
               </div>
-              <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-background" />
+              <div className="flex items-center gap-4">
+                <Check className="h-6 w-6 text-background" />
                 Campaign visual
               </div>
-              <div className="flex items-center gap-3">
-                <Check className="h-4 w-4 text-background" />
+              <div className="flex items-center gap-4">
+                <Check className="h-6 w-6 text-background" />
                 UI and editorial system
               </div>
             </div>
 
             <a
               href="/work"
-              className="inline-flex min-h-12 w-fit cursor-pointer items-center gap-2 rounded-full bg-background px-7 text-sm font-semibold text-foreground transition-colors hover:bg-background/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background"
+              className="inline-flex min-h-14 w-fit cursor-pointer items-center gap-3 rounded-full bg-background px-10 text-base font-bold text-foreground transition-all duration-300 hover:bg-background/90 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-background shadow-lg"
             >
               View all work
-              <ArrowUpRight className="h-4 w-4" />
+              <ArrowUpRight className="h-5 w-5" />
             </a>
           </div>
         </div>
